@@ -1,12 +1,15 @@
 import { $ } from "bun";
 
-console.log("\n\n --- Running setup v4 --- \n\n");
+console.log("\n\n --- Running setup v5 --- \n\n");
 
 $.env({
   ...process.env,
   HOME: process.env.HOME || `/Users/${process.env.USER || 'ian'}`,
   PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
 });
+
+// Disable dock resizing.
+await $`defaults write com.apple.Dock size-immutable -bool true; killall Dock`;
 
 // Install Bun if not already installed.
 const bunCheck = await $`which bun`.quiet();

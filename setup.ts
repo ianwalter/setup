@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log('\n\n --- Running setup v2 --- \n\n');
+console.log("\n\n --- Running setup v3 --- \n\n");
 
 // Install Bun.
 await $`curl -fsSL https://bun.sh/install | bash`;
@@ -154,5 +154,23 @@ const gitconfig = /* ini */ `
 `;
 await $`echo ${gitconfig} > ~/.gitconfig`;
 
-// Activate zsh configuration.
-await $`source ~/.zshrc`;
+// Configure Ghostty.
+const ghostty = /* bash */ `
+# Fonts
+font-family = "MonoLisa"
+font-size = 16
+
+# Theme
+theme = catppuccin-mocha
+
+# Window
+window-padding-balance = true
+window-padding-x = 4
+window-padding-y = 4
+`;
+await $`echo ${ghostty} > ~/Library/Application\ Support/com.mitchellh.ghostty/config`;
+
+// Open Ghostty.
+await $`open /Applications/Ghostty.app`;
+
+console.log("\n\n --- Setup complete --- \n\n");

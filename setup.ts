@@ -8,7 +8,7 @@ await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/in
 
 // Setup Homebrew.
 await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
-$.env({ PATH: `/opt/homebrew/bin/brew:${process.env.PATH}` });
+$.env({ ...process.env, PATH: `/opt/homebrew/bin/brew:${process.env.PATH}` });
 
 // Install Homebrew Formulae.
 await $`brew install eza` // A better ls command.

@@ -1,0 +1,13 @@
+{
+  "name": "setup",
+  "license": "UNLICENSED",
+  "scripts": {
+    "compile": "bun build ./setup.ts --compile --minify --outfile setup",
+    "sign": "codesign --deep --force -vvvv --sign 'TODO' --entitlements entitlements.plist ./setup",
+    "build": "bun run compile && bun run sign",
+    "start": "bun run build && ./setup"
+  },
+  "devDependencies": {
+    "bun-types": "^1.2.4"
+  }
+}

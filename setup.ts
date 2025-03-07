@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log('Running setup v1 ---\n\n');
+console.log('\n\n --- Running setup v2 --- \n\n');
 
 // Install Bun.
 await $`curl -fsSL https://bun.sh/install | bash`;
@@ -13,8 +13,8 @@ await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
 const HOME = process.env.HOME || `/Users/${process.env.USER || 'ian'}`;
 $.env({
   ...process.env,
-  PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
   HOME,
+  PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
 });
 
 // Install Homebrew Formulae.
@@ -36,6 +36,7 @@ await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install logi-options+`;
 await $`brew install ollama`;
+await $`brew install openjdk@17`;
 await $`brew install orbstack`;
 await $`brew install raycast`;
 await $`brew install sensei`;

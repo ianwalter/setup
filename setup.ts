@@ -1,5 +1,7 @@
 import { $ } from "bun";
 
+console.log('Running setup v1 ---\n\n');
+
 // Install Bun.
 await $`curl -fsSL https://bun.sh/install | bash`;
 
@@ -8,7 +10,12 @@ await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/in
 
 // Setup Homebrew.
 await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
-$.env({ ...process.env, PATH: `/opt/homebrew/bin/brew:${process.env.PATH}` });
+const HOME = process.env.HOME || `/Users/${process.env.USER || 'ian'}`;
+$.env({
+  ...process.env,
+  PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
+  HOME,
+});
 
 // Install Homebrew Formulae.
 await $`brew install eza` // A better ls command.

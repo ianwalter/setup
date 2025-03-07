@@ -7,7 +7,7 @@ await $`curl -fsSL https://bun.sh/install | bash`;
 await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
 
 // Setup Homebrew.
-await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc`;
+await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
 await $`eval "$(/opt/homebrew/bin/brew shellenv)"`;
 
 // Install Homebrew Formulae.

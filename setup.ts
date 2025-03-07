@@ -1,21 +1,29 @@
 import { $ } from "bun";
 
-console.log("\n\n --- Running setup v3 --- \n\n");
+console.log("\n\n --- Running setup v4 --- \n\n");
 
-// Install Bun.
-await $`curl -fsSL https://bun.sh/install | bash`;
-
-// Install Homebrew.
-await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
-
-// Setup Homebrew.
-await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
-const HOME = process.env.HOME || `/Users/${process.env.USER || 'ian'}`;
 $.env({
   ...process.env,
-  HOME,
+  HOME: process.env.HOME || `/Users/${process.env.USER || 'ian'}`,
   PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
 });
+
+// Install Bun if not already installed.
+const bunCheck = await $`which bun`.quiet();
+if (bunCheck.exitCode !== 0) {
+  await $`curl -fsSL https://bun.sh/install | bash`;
+} else {
+  console.log("Bun already installed. Skipping installation.");
+}
+
+// Install Homebrew if not already installed.
+const brewCheck = await $`which brew`.quiet();
+if (brewCheck.exitCode !== 0) {
+  await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
+  await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
+} else {
+  console.log("Homebrew already installed. Skipping installation.");
+}
 
 // Install Homebrew Formulae.
 await $`brew install eza` // A better ls command.

@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log("\n\n --- Running setup v6 --- \n\n");
+console.log("\n --- Running setup v7 --- \n");
 
 $.env({
   ...process.env,
@@ -49,6 +49,7 @@ await $`brew install android-studio`;
 await $`brew install cursor`;
 await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
+await $`brew install github`;
 await $`brew install logi-options+`;
 await $`brew install ollama`;
 await $`brew install openjdk@17`;

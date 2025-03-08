@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log("\n\n --- Running setup v5 --- \n\n");
+console.log("\n\n --- Running setup v6 --- \n\n");
 
 $.env({
   ...process.env,
@@ -9,7 +9,11 @@ $.env({
 });
 
 // Disable dock resizing.
-await $`defaults write com.apple.Dock size-immutable -bool true; killall Dock`;
+await $`defaults write com.apple.Dock size-immutable -bool true`;
+// Don't show recent apps in dock.
+await $`defaults write com.apple.dock show-recents -bool false`;
+// Restart the dock.
+await $`killall Dock`;
 
 // Install Bun if not already installed.
 const bunCheck = await $`which bun`.quiet();
@@ -181,7 +185,4 @@ window-padding-y = 4
 `;
 await $`echo ${ghostty} > ~/Library/Application\ Support/com.mitchellh.ghostty/config`;
 
-// Open Ghostty.
-await $`open /Applications/Ghostty.app`;
-
-console.log("\n\n --- Setup complete --- \n\n");
+console.log("\n --- Setup complete --- \n");

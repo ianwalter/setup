@@ -135,29 +135,12 @@ const gitconfig = /* ini */ `
   l = log --pretty=oneline -n 20 --graph --abbrev-commit
   # View the current working tree status using the short format.
   s = status -s
-  # Switch to a branch, creating it if necessary.
-  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
-  # Show verbose output about tags, branches or remotes.
-  tags = tag -l
-  branches = branch -a
-  remotes = remote -v
-  # Amend the currently staged files to the latest commit.
-  amend = commit --amend --reuse-message=HEAD
-  # Remove the old tag with this name and tag the latest commit with it.
-  retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
-  # Remove branches that have already been merged with main AKA
-  # 'delete merged'.
-  dm = "!git checkout $1 && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d && git checkout -"
-  # List contributors with number of commits.
-  contributors = shortlog --summary --numbered
   # Blow away everything including untracked files and directories.
   clear = clean -f -d
-  # Fetch a branch and check it out.
-  switch = !sh -c 'git fetch $1 $2 && git checkout $2' -
 
 [user]
   name = Ian Walter
-	email = 122028+ianwalter@users.noreply.github.com
+  email = 122028+ianwalter@users.noreply.github.com
 
 [core]
   ignorecase = false
@@ -166,7 +149,7 @@ const gitconfig = /* ini */ `
   enabled = true
 
 [init]
-	defaultBranch = main
+  defaultBranch = main
 `;
 await $`echo ${gitconfig} > ~/.gitconfig`;
 

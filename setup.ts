@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log("\n --- Running setup v7 --- \n");
+console.log("\n --- Running setup v8 --- \n");
 
 $.env({
   ...process.env,
@@ -60,9 +60,19 @@ await $`brew install spotify`;
 await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
+await $`brew install volta`;
 await $`brew install zed`;
 await $`brew install zen-browser`;
 await $`brew install zoom`;
+
+$.env({
+  ...process.env,
+  PATH: `/Users/ian/.volta/bin:${process.env.PATH}`,
+});
+
+// Install Node.js and npm packages.
+await $`volta install node@lts`;
+await $`npm install -g @anthropic-ai/claude-code`;
 
 // Copy zsh configuration to ~/.zshrc.
 const zshrc = /* bash */ `

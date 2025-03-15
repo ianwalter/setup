@@ -12,6 +12,8 @@ $.env({
 await $`defaults write com.apple.Dock size-immutable -bool true`;
 // Don't show recent apps in dock.
 await $`defaults write com.apple.dock show-recents -bool false`;
+// Disable annoying quick note feature.
+await $`defaults write com.apple.dock wvous-br-corner -int 0`;
 // Restart the dock.
 await $`killall Dock`;
 

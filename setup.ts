@@ -63,7 +63,6 @@ await $`brew install spotify`;
 await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
-await $`brew install volta`;
 await $`brew install zed`;
 await $`brew install zen-browser`;
 await $`brew install zoom`;
@@ -74,7 +73,6 @@ $.env({
 });
 
 // Install Node.js and npm packages.
-await $`volta install node@lts`;
 await $`npm install -g @anthropic-ai/claude-code`;
 
 // Copy zsh configuration to ~/.zshrc.

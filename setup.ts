@@ -53,6 +53,7 @@ await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install github`;
 await $`brew install logi-options+`;
+await $`brew install node`;
 await $`brew install ollama`;
 await $`brew install openjdk@17`;
 await $`brew install orbstack`;

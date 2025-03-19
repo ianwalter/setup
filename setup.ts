@@ -53,6 +53,7 @@ await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install github`;
 await $`brew install logi-options+`;
+await $`brew install mas`;
 await $`brew install node`;
 await $`brew install ollama`;
 await $`brew install openjdk@17`;
@@ -67,10 +68,9 @@ await $`brew install zed`;
 await $`brew install zen-browser`;
 await $`brew install zoom`;
 
-$.env({
-  ...process.env,
-  PATH: `/Users/ian/.volta/bin:${process.env.PATH}`,
-});
+// Install Mac App Store applications.
+await $`mas install 803453959`; // Slack
+await $`mas install 497799835`; // Xcode
 
 // Install Node.js and npm packages.
 await $`npm install -g @anthropic-ai/claude-code`;

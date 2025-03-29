@@ -1,6 +1,7 @@
 import { $ } from "bun";
+import { stripIndent } from "common-tags";
 
-console.log("\n --- Running setup v8 --- \n");
+console.log("\n --- Running setup v9 --- \n");
 
 $.env({
   ...process.env,
@@ -38,6 +39,7 @@ if (brewCheck.exitCode !== 0) {
 await $`brew install eza` // A better ls command.
 await $`brew install gh`; // GitHub CLI.
 await $`brew install git`; // Source control.
+await $`brew install git-lfs`; // Git LFS.
 await $`brew install go`; // Go language.
 await $`brew install jq`; // JSON utility.
 await $`brew install starship` // Shell prompt.
@@ -48,6 +50,7 @@ await $`brew install zoxide` // A better cd command.
 await $`brew install 1password`;
 await $`brew install 1password-cli`;
 await $`brew install android-studio`;
+await $`brew install cleanshot`;
 await $`brew install cursor`;
 await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
@@ -132,7 +135,7 @@ eval "$(starship init zsh)"
 await $`echo ${zshrc} > ~/.zshrc`;
 
 // Copy git configuration to ~/.gitconfig.
-const gitconfig = /* ini */ `
+const gitconfig = stripIndent /* ini */ `
 [push]
   default = current
   autoSetupRemote = true
@@ -165,7 +168,7 @@ const gitconfig = /* ini */ `
 await $`echo ${gitconfig} > ~/.gitconfig`;
 
 // Configure Ghostty.
-const ghostty = /* bash */ `
+const ghostty = stripIndent /* bash */ `
 # Fonts
 font-family = "MonoLisa"
 font-size = 16

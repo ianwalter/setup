@@ -9,5 +9,9 @@
   },
   "devDependencies": {
     "bun-types": "^1.2.4"
+  },
+  "dependencies": {
+    "@types/common-tags": "^1.8.4",
+    "common-tags": "^1.8.2"
   }
 }

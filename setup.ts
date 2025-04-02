@@ -1,7 +1,7 @@
 import { $ } from "bun";
 import { stripIndent } from "common-tags";
 
-console.log("\n --- Running setup v9 --- \n");
+console.log("\n --- Running setup v10 --- \n");
 
 $.env({
   ...process.env,
@@ -182,5 +182,12 @@ window-padding-x = 4
 window-padding-y = 4
 `;
 await $`echo ${ghostty} > ~/Library/Application\ Support/com.mitchellh.ghostty/config`;
+
+// Configure Starship.
+const starship = stripIndent /* ini */ `
+[directory]
+truncate_to_repo = false
+`;
+await $`echo ${starship} > ~/.config/starship.toml`;
 
 console.log("\n --- Setup complete --- \n");

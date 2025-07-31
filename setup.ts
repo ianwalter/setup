@@ -1,7 +1,7 @@
 import { $ } from "bun";
 import { stripIndent } from "common-tags";
 
-console.log("\n --- Running setup v10 --- \n");
+console.log("\n --- Running setup v11 --- \n");
 
 $.env({
   ...process.env,
@@ -51,10 +51,10 @@ await $`brew install 1password`;
 await $`brew install 1password-cli`;
 await $`brew install android-studio`;
 await $`brew install cleanshot`;
-await $`brew install cursor`;
 await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install github`;
+await $`brew install git-town`;
 await $`brew install logi-options+`;
 await $`brew install mas`;
 await $`brew install node`;
@@ -68,7 +68,6 @@ await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
 await $`brew install zed`;
-await $`brew install zen-browser`;
 await $`brew install zoom`;
 
 // Install Mac App Store applications.

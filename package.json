@@ -1,17 +1,22 @@
 {
-  "name": "setup",
-  "license": "UNLICENSED",
-  "scripts": {
-    "compile": "bun build ./setup.ts --compile --minify --outfile setup",
-    "sign": "codesign --deep --force -vvvv --sign 'TODO' --entitlements entitlements.plist ./setup",
-    "build": "bun run compile && bun run sign",
-    "start": "bun run build && ./setup"
-  },
-  "devDependencies": {
-    "bun-types": "^1.2.4"
-  },
-  "dependencies": {
-    "@types/common-tags": "^1.8.4",
-    "common-tags": "^1.8.2"
-  }
+	"name": "setup",
+	"license": "UNLICENSED",
+	"scripts": {
+		"compile": "bun build ./setup.ts --compile --minify --outfile setup",
+		"sign": "codesign --deep --force -vvvv --sign 'TODO' --entitlements entitlements.plist ./setup",
+		"build": "bun run compile && bun run sign",
+		"start": "bun run build && ./setup",
+		"format": "biome format --write",
+		"lint": "biome lint --write",
+		"check": "biome check --write",
+		"save-dock": "defaults export com.apple.dock dock.plist"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.4",
+		"bun-types": "^1.2.4"
+	},
+	"dependencies": {
+		"@types/common-tags": "^1.8.4",
+		"common-tags": "^1.8.2"
+	}
 }

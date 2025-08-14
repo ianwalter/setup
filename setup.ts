@@ -1,56 +1,48 @@
 import { $ } from "bun";
 import { stripIndent } from "common-tags";
 
-console.log("\n --- Running setup v11 --- \n");
+console.log("\n --- Running setup v12 --- \n");
 
 $.env({
-  ...process.env,
-  HOME: process.env.HOME || `/Users/${process.env.USER || 'ian'}`,
-  PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
+	...process.env,
+	HOME: process.env.HOME || `/Users/${process.env.USER || "ian"}`,
+	PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
 });
-
-// Disable dock resizing.
-await $`defaults write com.apple.Dock size-immutable -bool true`;
-// Don't show recent apps in dock.
-await $`defaults write com.apple.dock show-recents -bool false`;
-// Disable annoying quick note feature.
-await $`defaults write com.apple.dock wvous-br-corner -int 0`;
-// Restart the dock.
-await $`killall Dock`;
 
 // Install Bun if not already installed.
 const bunCheck = await $`which bun`.quiet();
 if (bunCheck.exitCode !== 0) {
-  await $`curl -fsSL https://bun.sh/install | bash`;
+	await $`curl -fsSL https://bun.sh/install | bash`;
 } else {
-  console.log("Bun already installed. Skipping installation.");
+	console.log("Bun already installed. Skipping installation.");
 }
 
 // Install Homebrew if not already installed.
 const brewCheck = await $`which brew`.quiet();
 if (brewCheck.exitCode !== 0) {
-  await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
-  await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
+	await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
+	await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
 } else {
-  console.log("Homebrew already installed. Skipping installation.");
+	console.log("Homebrew already installed. Skipping installation.");
 }
 
 // Install Homebrew Formulae.
-await $`brew install eza` // A better ls command.
+await $`brew install eza`; // A better ls command.
 await $`brew install gh`; // GitHub CLI.
-await $`brew install git`; // Source control.
-await $`brew install git-lfs`; // Git LFS.
+await $`brew install --no-upgrade git`; // Source control.
+await $`brew install --no-upgrade git-lfs`; // Git LFS.
 await $`brew install go`; // Go language.
 await $`brew install jq`; // JSON utility.
-await $`brew install starship` // Shell prompt.
-await $`brew install trash` // A better rm command.
-await $`brew install zoxide` // A better cd command.
+await $`brew install starship`; // Shell prompt.
+await $`brew install trash`; // A better rm command.
+await $`brew install zoxide`; // A better cd command.
 
 // Install Homebrew Casks.
 await $`brew install 1password`;
 await $`brew install 1password-cli`;
 await $`brew install android-studio`;
 await $`brew install cleanshot`;
+await $`brew install craft`;
 await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install github`;
@@ -67,12 +59,29 @@ await $`brew install spotify`;
 await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
-await $`brew install zed`;
 await $`brew install zoom`;
 
 // Install Mac App Store applications.
 await $`mas install 803453959`; // Slack
 await $`mas install 497799835`; // Xcode
+
+// Disable dock resizing.
+await $`defaults write com.apple.Dock size-immutable -bool true`;
+// Don't show recent apps in dock.
+await $`defaults write com.apple.dock show-recents -bool false`;
+// Disable annoying quick note feature.
+await $`defaults write com.apple.dock wvous-br-corner -int 0`;
+
+// Restore dock app order.
+const dockPlist = Buffer.from(
+	await Bun.file("./dock.plist").arrayBuffer(),
+).toString("base64");
+const dockPlistData = Buffer.from(dockPlist, "base64");
+await Bun.write("/tmp/dock.plist", dockPlistData);
+await $`defaults import com.apple.dock /tmp/dock.plist`;
+
+// Restart the dock.
+await $`killall Dock`;
 
 // Install Node.js and npm packages.
 await $`npm install -g @anthropic-ai/claude-code`;
@@ -134,7 +143,7 @@ eval "$(starship init zsh)"
 await $`echo ${zshrc} > ~/.zshrc`;
 
 // Copy git configuration to ~/.gitconfig.
-const gitconfig = stripIndent /* ini */ `
+const gitconfig = stripIndent /* ini */`
 [push]
   default = current
   autoSetupRemote = true
@@ -167,7 +176,7 @@ const gitconfig = stripIndent /* ini */ `
 await $`echo ${gitconfig} > ~/.gitconfig`;
 
 // Configure Ghostty.
-const ghostty = stripIndent /* bash */ `
+const ghostty = stripIndent /* bash */`
 # Fonts
 font-family = "MonoLisa"
 font-size = 16
@@ -183,7 +192,7 @@ window-padding-y = 4
 await $`echo ${ghostty} > ~/Library/Application\ Support/com.mitchellh.ghostty/config`;
 
 // Configure Starship.
-const starship = stripIndent /* ini */ `
+const starship = stripIndent /* ini */`
 [directory]
 truncate_to_repo = false
 `;

@@ -1,0 +1,28 @@
+[push]
+  default = current
+  autoSetupRemote = true
+
+[pull]
+  rebase = false
+
+[alias]
+  # View abbreviated SHA, description, and history graph of the latest 20
+  # commits.
+  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  # View the current working tree status using the short format.
+  s = status -s
+  # Blow away everything including untracked files and directories.
+  clear = clean -f -d
+
+[user]
+  name = Ian Walter
+  email = 122028+ianwalter@users.noreply.github.com
+
+[core]
+  ignorecase = false
+
+[rerere]
+  enabled = true
+
+[init]
+  defaultBranch = main

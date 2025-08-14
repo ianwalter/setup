@@ -3,13 +3,14 @@
 	"license": "UNLICENSED",
 	"scripts": {
 		"compile": "bun build ./setup.ts --compile --minify --outfile setup",
-		"sign": "codesign --deep --force -vvvv --sign 'TODO' --entitlements entitlements.plist ./setup",
+		"sign": "codesign --deep --force -vvvv --sign - --entitlements entitlements.plist ./setup",
 		"build": "bun run compile && bun run sign",
 		"start": "bun run build && ./setup",
 		"format": "biome format --write",
 		"lint": "biome lint --write",
 		"check": "biome check --write",
-		"save-dock": "defaults export com.apple.dock dock.plist"
+		"save-dock": "defaults export com.apple.dock dock.plist",
+		"unsign": "codesign --remove-signature setup"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.4",

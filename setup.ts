@@ -1,12 +1,11 @@
 import { $ } from "bun";
-import { stripIndent } from "common-tags";
 
-console.log("\n --- Running setup v12 --- \n");
+console.log("\n --- Running setup v14 --- \n");
 
 $.env({
 	...process.env,
 	HOME: process.env.HOME || `/Users/${process.env.USER || "ian"}`,
-	PATH: `/opt/homebrew/bin/brew:${process.env.PATH}`,
+	PATH: `/opt/homebrew/bin:${process.env.PATH}`,
 });
 
 // Install Bun if not already installed.
@@ -29,8 +28,8 @@ if (brewCheck.exitCode !== 0) {
 // Install Homebrew Formulae.
 await $`brew install eza`; // A better ls command.
 await $`brew install gh`; // GitHub CLI.
-await $`brew install --no-upgrade git`; // Source control.
-await $`brew install --no-upgrade git-lfs`; // Git LFS.
+await $`brew install git`; // Source control.
+await $`brew install git-lfs`; // Git LFS.
 await $`brew install go`; // Go language.
 await $`brew install jq`; // JSON utility.
 await $`brew install starship`; // Shell prompt.
@@ -71,6 +70,10 @@ await $`defaults write com.apple.Dock size-immutable -bool true`;
 await $`defaults write com.apple.dock show-recents -bool false`;
 // Disable annoying quick note feature.
 await $`defaults write com.apple.dock wvous-br-corner -int 0`;
+// Set dock position to bottom.
+await $`defaults write com.apple.dock orientation -string "bottom"`;
+// Disable "Displays have separate Spaces".
+await $`defaults write com.apple.spaces spans-displays -bool TRUE`;
 
 // Restore dock app order.
 const dockPlist = Buffer.from(
@@ -87,115 +90,21 @@ await $`killall Dock`;
 await $`npm install -g @anthropic-ai/claude-code`;
 
 // Copy zsh configuration to ~/.zshrc.
-const zshrc = /* bash */ `
-# Setup word skipping using <Alt><RightArrow> and <Alt><LeftArrow> to behave
-# like macOS.
-# https://stackoverflow.com/questions/12382499/looking-for-altleftarrowkey-solution-in-zsh
-bindkey '[C' forward-word
-bindkey '[D' backward-word
-
-# Setup command history cycling using <Alt><UpArrow> and <Alt><DownArrow>.
-bindkey '[A' history-beginning-search-backward
-bindkey '[B' history-beginning-search-forward
-
-# Setup aliases to use alternative utilities.
-alias ls='eza'
-alias rm='trash'
-alias cd='z'
-
-# Configure zsh command history.
-# File to save command history.
-HISTFILE=~/.zsh_history
-# How many commands are loaded into shell memory.
-HISTSIZE=5000
-# How many commands to save to the history file.
-SAVEHIST=5000
-# Append history to the history file (don't overwrite).
-setopt APPEND_HISTORY
-# Immediately append to the history file, not just when a terminal is killed.
-setopt INC_APPEND_HISTORY
-# Share history across sessions.
-setopt SHARE_HISTORY
-# Also save when the command started and how long it ran for.
-setopt EXTENDED_HISTORY
-# Don't save a history line if it's the same as the previous one.
-setopt HIST_IGNORE_DUPS
-# When history fills up, remove duplicate commands first.
-setopt HIST_EXPIRE_DUPS_FIRST
-# Remove meaningless whitespace from command history.
-setopt HIST_REDUCE_BLANKS
-
-# Set vim as the default editor.
-export EDITOR=vim
-
-# Add binaries to the PATH so they are always accessible.
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="/opt/homebrew/opt/trash/bin:$PATH"
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-
-# Setup zoxide completions.
-eval "$(zoxide init zsh)"
-
-# Use the Starship prompt.
-eval "$(starship init zsh)"
-`;
-await $`echo ${zshrc} > ~/.zshrc`;
+const zshrcData = await Bun.file("./.zshrc").arrayBuffer();
+await Bun.write("/Users/ian/.zshrc", zshrcData);
 
 // Copy git configuration to ~/.gitconfig.
-const gitconfig = stripIndent /* ini */`
-[push]
-  default = current
-  autoSetupRemote = true
-
-[pull]
-  rebase = false
-
-[alias]
-  # View abbreviated SHA, description, and history graph of the latest 20
-  # commits.
-  l = log --pretty=oneline -n 20 --graph --abbrev-commit
-  # View the current working tree status using the short format.
-  s = status -s
-  # Blow away everything including untracked files and directories.
-  clear = clean -f -d
-
-[user]
-  name = Ian Walter
-  email = 122028+ianwalter@users.noreply.github.com
-
-[core]
-  ignorecase = false
-
-[rerere]
-  enabled = true
-
-[init]
-  defaultBranch = main
-`;
-await $`echo ${gitconfig} > ~/.gitconfig`;
+const gitconfigData = await Bun.file("./.gitconfig").arrayBuffer();
+await Bun.write("/Users/ian/.gitconfig", gitconfigData);
 
 // Configure Ghostty.
-const ghostty = stripIndent /* bash */`
-# Fonts
-font-family = "MonoLisa"
-font-size = 16
-
-# Theme
-theme = catppuccin-mocha
-
-# Window
-window-padding-balance = true
-window-padding-x = 4
-window-padding-y = 4
-`;
-await $`echo ${ghostty} > ~/Library/Application\ Support/com.mitchellh.ghostty/config`;
+const ghosttyData = await Bun.file("./ghostty.conf").arrayBuffer();
+await $`mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty`;
+await Bun.write("/Users/ian/Library/Application Support/com.mitchellh.ghostty/config", ghosttyData);
 
 // Configure Starship.
-const starship = stripIndent /* ini */`
-[directory]
-truncate_to_repo = false
-`;
-await $`echo ${starship} > ~/.config/starship.toml`;
+const starshipData = await Bun.file("./starship.toml").arrayBuffer();
+await $`mkdir -p ~/.config`;
+await Bun.write("/Users/ian/.config/starship.toml", starshipData);
 
 console.log("\n --- Setup complete --- \n");

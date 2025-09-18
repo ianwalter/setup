@@ -8,10 +8,12 @@ bindkey '[D' backward-word
 bindkey '[A' history-beginning-search-backward
 bindkey '[B' history-beginning-search-forward
 
-# Setup aliases to use alternative utilities.
-alias ls='eza'
-alias rm='trash'
-alias cd='z'
+# Setup aliases to use alternative utilities for interactive shells.
+if [[ $- == *i* ]]; then
+  alias ls='eza'
+  alias rm='trash'
+  alias cd='z'
+fi
 
 # Configure zsh command history.
 # File to save command history.

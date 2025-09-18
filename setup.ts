@@ -1,6 +1,6 @@
 import { $ } from "bun";
 
-console.log("\n --- Running setup v15 --- \n");
+console.log("\n --- Running setup v16 --- \n");
 
 $.env({
 	...process.env,

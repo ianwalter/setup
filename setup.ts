@@ -42,10 +42,8 @@ await $`brew install 1password-cli`;
 await $`brew install android-studio`;
 await $`brew install cleanshot`;
 await $`brew install craft`;
-await $`brew install elgato-stream-deck`;
 await $`brew install ghostty`;
 await $`brew install github`;
-await $`brew install git-town`;
 await $`brew install logi-options+`;
 await $`brew install mas`;
 await $`brew install node`;
@@ -63,6 +61,9 @@ await $`brew install zoom`;
 // Install Mac App Store applications.
 await $`mas install 803453959`; // Slack
 await $`mas install 497799835`; // Xcode
+await $`mas install 6479589428`; // Boom
+await $`mas install 1569813296`; // 1Password for Safari
+await $`mas install 6748613311`; // Craft Web Clipper
 
 // Disable dock resizing.
 await $`defaults write com.apple.Dock size-immutable -bool true`;
@@ -100,7 +101,10 @@ await Bun.write("/Users/ian/.gitconfig", gitconfigData);
 // Configure Ghostty.
 const ghosttyData = await Bun.file("./ghostty.conf").arrayBuffer();
 await $`mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty`;
-await Bun.write("/Users/ian/Library/Application Support/com.mitchellh.ghostty/config", ghosttyData);
+await Bun.write(
+	"/Users/ian/Library/Application Support/com.mitchellh.ghostty/config",
+	ghosttyData,
+);
 
 // Configure Starship.
 const starshipData = await Bun.file("./starship.toml").arrayBuffer();

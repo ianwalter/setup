@@ -2,7 +2,7 @@
 	"name": "setup",
 	"license": "UNLICENSED",
 	"scripts": {
-		"compile": "bun build ./setup.ts --compile --minify --outfile setup",
+		"compile": "bun build ./setup.ts --compile --minify --outfile ~/setup",
 		"sign": "codesign --deep --force -vvvv --sign - --entitlements entitlements.plist ./setup",
 		"build": "bun save-dock && bun run compile && bun run sign",
 		"start": "bun run build && ./setup",

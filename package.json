@@ -3,9 +3,9 @@
 	"license": "UNLICENSED",
 	"scripts": {
 		"compile": "bun build ./setup.ts --compile --minify --outfile ~/setup",
-		"sign": "codesign --deep --force -vvvv --sign - --entitlements entitlements.plist ./setup",
+		"sign": "codesign --deep --force -vvvv --sign - --entitlements entitlements.plist ~/setup",
 		"build": "bun save-dock && bun run compile && bun run sign",
-		"start": "bun run build && ./setup",
+		"start": "bun run build && ~/setup",
 		"format": "biome format --write",
 		"lint": "biome lint --write",
 		"check": "biome check --write",

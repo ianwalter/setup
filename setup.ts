@@ -1,6 +1,11 @@
-import { $ } from "bun";
+import { $, file } from "bun";
+import dockConfig from "./dock.plist" with { type: "file" };
+import gitConfig from "./.gitconfig" with { type: "file" };
+import zshConfig from "./.zshrc" with { type: "file" };
+import ghosttyConfig from "./ghostty.conf" with { type: "file" };
+import starshipConfig from "./starship.toml" with { type: "file" };
 
-console.log("\n --- Running setup v16 --- \n");
+console.log("\n --- Running setup v17 --- \n");
 
 $.env({
 	...process.env,
@@ -26,6 +31,8 @@ if (brewCheck.exitCode !== 0) {
 }
 
 // Install Homebrew Formulae.
+await $`brew install bat`; // A better cat command.
+await $`brew install biome`; // TS linter/formatter.
 await $`brew install eza`; // A better ls command.
 await $`brew install gh`; // GitHub CLI.
 await $`brew install git`; // Source control.
@@ -35,6 +42,8 @@ await $`brew install jq`; // JSON utility.
 await $`brew install starship`; // Shell prompt.
 await $`brew install trash`; // A better rm command.
 await $`brew install zoxide`; // A better cd command.
+await $`brew install mprocs`; // Process manager.
+await $`brew install uv`; // Python package manager.
 
 // Install Homebrew Casks.
 await $`brew install 1password`;
@@ -46,7 +55,6 @@ await $`brew install ghostty`;
 await $`brew install github`;
 await $`brew install logi-options+`;
 await $`brew install mas`;
-await $`brew install node`;
 await $`brew install ollama`;
 await $`brew install openjdk@17`;
 await $`brew install orbstack`;
@@ -56,12 +64,10 @@ await $`brew install spotify`;
 await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
-await $`brew install zoom`;
 
 // Install Mac App Store applications.
 await $`mas install 803453959`; // Slack
 await $`mas install 497799835`; // Xcode
-await $`mas install 6479589428`; // Boom
 await $`mas install 1569813296`; // 1Password for Safari
 await $`mas install 6748613311`; // Craft Web Clipper
 
@@ -77,38 +83,31 @@ await $`defaults write com.apple.dock orientation -string "bottom"`;
 await $`defaults write com.apple.spaces spans-displays -bool TRUE`;
 
 // Restore dock app order.
-const dockPlist = Buffer.from(
-	await Bun.file("./dock.plist").arrayBuffer(),
-).toString("base64");
-const dockPlistData = Buffer.from(dockPlist, "base64");
-await Bun.write("/tmp/dock.plist", dockPlistData);
+await Bun.write("/tmp/dock.plist", file(dockConfig));
 await $`defaults import com.apple.dock /tmp/dock.plist`;
 
 // Restart the dock.
 await $`killall Dock`;
 
-// Install Node.js and npm packages.
-await $`npm install -g @anthropic-ai/claude-code`;
+// Install global npm packages.
+await $`bun install -g @anthropic-ai/claude-code`;
+await $`bun install -g @openai/codex`;
 
 // Copy zsh configuration to ~/.zshrc.
-const zshrcData = await Bun.file("./.zshrc").arrayBuffer();
-await Bun.write("/Users/ian/.zshrc", zshrcData);
+await Bun.write("/Users/ian/.zshrc", file(zshConfig));
 
 // Copy git configuration to ~/.gitconfig.
-const gitconfigData = await Bun.file("./.gitconfig").arrayBuffer();
-await Bun.write("/Users/ian/.gitconfig", gitconfigData);
+await Bun.write("/Users/ian/.gitconfig", file(gitConfig));
 
 // Configure Ghostty.
-const ghosttyData = await Bun.file("./ghostty.conf").arrayBuffer();
 await $`mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty`;
 await Bun.write(
 	"/Users/ian/Library/Application Support/com.mitchellh.ghostty/config",
-	ghosttyData,
+	file(ghosttyConfig),
 );
 
 // Configure Starship.
-const starshipData = await Bun.file("./starship.toml").arrayBuffer();
 await $`mkdir -p ~/.config`;
-await Bun.write("/Users/ian/.config/starship.toml", starshipData);
+await Bun.write("/Users/ian/.config/starship.toml", file(starshipConfig));
 
 console.log("\n --- Setup complete --- \n");

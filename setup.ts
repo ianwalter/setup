@@ -5,7 +5,7 @@ import zshConfig from "./.zshrc" with { type: "file" };
 import ghosttyConfig from "./ghostty.conf" with { type: "file" };
 import starshipConfig from "./starship.toml" with { type: "file" };
 
-console.log("\n --- Running setup v17 --- \n");
+console.log("\n --- Running setup v18 --- \n");
 
 $.env({
 	...process.env,

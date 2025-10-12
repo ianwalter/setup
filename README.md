@@ -1,5 +1,5 @@
 # Setup
 
 ```sh
-curl -L https://raw.githubusercontent.com/ianwalter/setup/main/setup -o setup && chmod +x setup && ./setup
+curl -L https://github.com/ianwalter/setup/releases/latest/download/setup -o setup && chmod +x setup && ./setup
 ```

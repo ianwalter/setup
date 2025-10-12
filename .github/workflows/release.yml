@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Compile binary
+        run: |
+          rm -f ~/setup
+          bun run compile
+
+      - name: Collect binary
+        run: cp ~/setup ./setup
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: setup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

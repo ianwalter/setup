@@ -49,6 +49,7 @@ await $`brew install uv`; // Python package manager.
 await $`brew install 1password`;
 await $`brew install 1password-cli`;
 await $`brew install android-studio`;
+await $`brew install betterdisplay`;
 await $`brew install cleanshot`;
 await $`brew install craft`;
 await $`brew install ghostty`;

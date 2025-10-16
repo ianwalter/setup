@@ -1,33 +1,33 @@
 import { $, file } from "bun";
-import dockConfig from "./dock.plist" with { type: "file" };
 import gitConfig from "./.gitconfig" with { type: "file" };
 import zshConfig from "./.zshrc" with { type: "file" };
+import dockConfig from "./dock.plist" with { type: "file" };
 import ghosttyConfig from "./ghostty.conf" with { type: "file" };
 import starshipConfig from "./starship.toml" with { type: "file" };
 
-console.log("\n --- Running setup v18 --- \n");
+console.log("\n --- Running setup v19 --- \n");
 
 $.env({
-	...process.env,
-	HOME: process.env.HOME || `/Users/${process.env.USER || "ian"}`,
-	PATH: `/opt/homebrew/bin:${process.env.PATH}`,
+  ...process.env,
+  HOME: process.env.HOME || `/Users/${process.env.USER || "ian"}`,
+  PATH: `/opt/homebrew/bin:${process.env.PATH}`,
 });
 
 // Install Bun if not already installed.
 const bunCheck = await $`which bun`.quiet();
 if (bunCheck.exitCode !== 0) {
-	await $`curl -fsSL https://bun.sh/install | bash`;
+  await $`curl -fsSL https://bun.sh/install | bash`;
 } else {
-	console.log("Bun already installed. Skipping installation.");
+  console.log("Bun already installed. Skipping installation.");
 }
 
 // Install Homebrew if not already installed.
 const brewCheck = await $`which brew`.quiet();
 if (brewCheck.exitCode !== 0) {
-	await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
-	await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
+  await $`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
+  await $`echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile`;
 } else {
-	console.log("Homebrew already installed. Skipping installation.");
+  console.log("Homebrew already installed. Skipping installation.");
 }
 
 // Install Homebrew Formulae.
@@ -65,6 +65,7 @@ await $`brew install spotify`;
 await $`brew install steam`;
 await $`brew install tableplus`;
 await $`brew install visual-studio-code`;
+await $`brew install zed`;
 
 // Install Mac App Store applications.
 await $`mas install 803453959`; // Slack
@@ -103,8 +104,8 @@ await Bun.write("/Users/ian/.gitconfig", file(gitConfig));
 // Configure Ghostty.
 await $`mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty`;
 await Bun.write(
-	"/Users/ian/Library/Application Support/com.mitchellh.ghostty/config",
-	file(ghosttyConfig),
+  "/Users/ian/Library/Application Support/com.mitchellh.ghostty/config",
+  file(ghosttyConfig),
 );
 
 // Configure Starship.

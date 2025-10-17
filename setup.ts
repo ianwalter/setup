@@ -98,25 +98,27 @@ await $`killall Dock`;
 await $`bun install -g @anthropic-ai/claude-code`;
 await $`bun install -g @openai/codex`;
 
+const home = process.env.HOME || `~`;
+
 // Copy zsh configuration to ~/.zshrc.
-await Bun.write("/Users/ian/.zshrc", file(zshConfig));
+await Bun.write(`${home}/.zshrc`, file(zshConfig));
 
 // Copy git configuration to ~/.gitconfig.
-await Bun.write("/Users/ian/.gitconfig", file(gitConfig));
+await Bun.write(`${home}/.gitconfig`, file(gitConfig));
 
 // Configure Ghostty.
 await $`mkdir -p ~/Library/Application\ Support/com.mitchellh.ghostty`;
 await Bun.write(
-  "/Users/ian/Library/Application Support/com.mitchellh.ghostty/config",
+  `${home}/Library/Application Support/com.mitchellh.ghostty/config`,
   file(ghosttyConfig),
 );
 
 // Configure Starship.
 await $`mkdir -p ~/.config`;
-await Bun.write("/Users/ian/.config/starship.toml", file(starshipConfig));
+await Bun.write(`${home}/.config/starship.toml`, file(starshipConfig));
 
 // Configure opencode.
 await $`mkdir -p ~/.config/opencode`;
-await Bun.write("/Users/ian/.config/opencode/opencode.json", file(opencodeConfig));
+await Bun.write(`${home}/.config/opencode/opencode.json`, file(opencodeConfig));
 
 console.log("\n --- Setup complete --- \n");

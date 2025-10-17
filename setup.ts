@@ -4,8 +4,9 @@ import zshConfig from "./.zshrc" with { type: "file" };
 import dockConfig from "./dock.plist" with { type: "file" };
 import ghosttyConfig from "./ghostty.conf" with { type: "file" };
 import starshipConfig from "./starship.toml" with { type: "file" };
+import opencodeConfig from "./opencode.json" with { type: "file" };
 
-console.log("\n --- Running setup v19 --- \n");
+console.log("\n --- Running setup v20 --- \n");
 
 $.env({
   ...process.env,
@@ -57,6 +58,8 @@ await $`brew install github`;
 await $`brew install logi-options+`;
 await $`brew install mas`;
 await $`brew install ollama`;
+await $`brew install ollama-app`;
+await $`brew install opencode`;
 await $`brew install openjdk@17`;
 await $`brew install orbstack`;
 await $`brew install raycast`;
@@ -111,5 +114,9 @@ await Bun.write(
 // Configure Starship.
 await $`mkdir -p ~/.config`;
 await Bun.write("/Users/ian/.config/starship.toml", file(starshipConfig));
+
+// Configure opencode.
+await $`mkdir -p ~/.config/opencode`;
+await Bun.write("/Users/ian/.config/opencode/opencode.json", file(opencodeConfig));
 
 console.log("\n --- Setup complete --- \n");

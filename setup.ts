@@ -6,7 +6,7 @@ import ghosttyConfig from "./ghostty.conf" with { type: "file" };
 import starshipConfig from "./starship.toml" with { type: "file" };
 import opencodeConfig from "./opencode.json" with { type: "file" };
 
-console.log("\n --- Running setup v20 --- \n");
+console.log("\n --- Running setup v21 --- \n");
 
 $.env({
   ...process.env,
@@ -86,6 +86,8 @@ await $`defaults write com.apple.dock wvous-br-corner -int 0`;
 await $`defaults write com.apple.dock orientation -string "bottom"`;
 // Disable "Displays have separate Spaces".
 await $`defaults write com.apple.spaces spans-displays -bool TRUE`;
+// Disable autocorrect
+await $`defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false`;
 
 // Restore dock app order.
 await Bun.write("/tmp/dock.plist", file(dockConfig));
